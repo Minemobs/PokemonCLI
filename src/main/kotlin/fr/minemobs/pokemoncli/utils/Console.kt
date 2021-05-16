@@ -17,6 +17,7 @@ class Console {
         }
 
         fun println(message: Any?) {
+            //println(message, 250L)
             println(message, 0L)
         }
     }

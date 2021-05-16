@@ -1,7 +1,7 @@
 package fr.minemobs.pokemoncli
 
 import fr.minemobs.pokemoncli.entities.Player
-import fr.minemobs.pokemoncli.entities.Pokemon
+import fr.minemobs.pokemoncli.entities.Pokemons
 import fr.minemobs.pokemoncli.entities.Trainer
 import fr.minemobs.pokemoncli.utils.Color
 import fr.minemobs.pokemoncli.utils.Console
@@ -38,7 +38,7 @@ fun main() {
     Console.println("I study Pokémon as a profession.")
     Console.println("First, what is your name ?")
     val name: String = readLine()!!
-    val player : Trainer = Player(name, ArrayList(), arrayListOf())
+    val player = Player(name, ArrayList(), arrayListOf())
     Console.println("Right! So your name is $name !")
     Console.println("This is my grand-son. He's been your rival since you were a baby.")
     Console.println("... Erm, what is his name again ?")
@@ -89,7 +89,7 @@ fun main() {
     Console.println("In my old age, I have only 3 left, but you can have one! Choose!")
     Console.println("$rivalName: Hey! Gramps! What about me?")
     Console.println("Oak: Be patient! $rivalName, you can have one too!")
-    Console.println("(Which pokémon do you want to choose ?) \n" +
+    println("(Which pokémon do you want to choose ?) \n" +
             "(Bulbasaur[1], Charmander[2], Squirtle[3])")
     var pokemonChoosen = 0
     while (pokemonChoosen == 0){
@@ -104,9 +104,56 @@ fun main() {
     }
 
     when (pokemonChoosen) {
-        1 -> {}
-        2 -> {}
-        3 -> {}
+        1 -> {
+            player.addPokemon(Pokemons.BULBASAUR.get())
+        }
+        2 -> {
+            player.addPokemon(Pokemons.CHARMANDER.get())
+        }
+        3 -> {
+            player.addPokemon(Pokemons.SQUIRTLE.get())
+        }
+    }
+    Console.println("$name received a ${player.pokemons[0].getName()} !")
+    Console.println("Do you want to give a nickname to ${player.pokemons[0].getName()}?")
+    var giveNicknameInt = 0
+    while (giveNicknameInt == 0) {
+        val giveNickname = readLine()!!
+        when (giveNickname) {
+            "Yes" -> {
+                giveNicknameInt = 1
+                println("Please write the nickname of your pokémon")
+                player.pokemons[0].setName(readLine()!!)
+            }
+            "No" -> giveNicknameInt = 1
+            else -> {
+                println("Please write [${color.GREEN}Yes${color.RESET}] or [${color.RED}No${color.RESET}]")
+            }
+        }
     }
 
+    Console.println("$rivalName: I'll take this one, then!")
+
+    when (pokemonChoosen) {
+        1 -> {
+            rival.addPokemon(Pokemons.CHARMANDER.get())
+        }
+        2 -> {
+            rival.addPokemon(Pokemons.SQUIRTLE.get())
+        }
+        3 -> {
+            rival.addPokemon(Pokemons.BULBASAUR.get())
+        }
+    }
+
+    println("$rivalName received a ${rival.pokemons[0].getName()}!")
+    Console.println("$rivalName: Wait \n $name!")
+    Console.println("Let's check out our pokémon!")
+    Console.println("Come on, I'll take you on!")
+    /*
+    Fight
+     */
+    player.setInFight(true)
+    println("$rivalName wants to fight!")
+    //TODO: Fight system
 }

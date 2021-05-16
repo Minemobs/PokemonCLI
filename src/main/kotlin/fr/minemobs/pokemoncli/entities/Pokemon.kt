@@ -1,10 +1,12 @@
 package fr.minemobs.pokemoncli.entities
 
+import com.google.gson.Gson
 import fr.minemobs.pokemoncli.Attack
 import fr.minemobs.pokemoncli.Types
 import kotlin.random.Random
 
-class Pokemon(private var name: String, private var pv : Int, private var attack : Int, private var speed: Int, private var defense: Int, private var level : Int, private var xp : Int, private var types : ArrayList<Types>, private var evolutions : Map<Int, Pokemons>) {
+class Pokemon(private var name: String, private var pv : Int, private var attack : Int, private var speed: Int, private var defense: Int, private var level : Int,
+              private var xp : Int, private var types : ArrayList<Types>, private var evolutions : Map<Int, String>) {
 
     private var isBurn = false
     private var isParalyzed = false
@@ -80,7 +82,7 @@ class Pokemon(private var name: String, private var pv : Int, private var attack
     }
 
     fun damage(pokemon: Pokemon, attack: Attack, trainer: Trainer) {
-        var stab : Int = 1
+        var stab = 1
         if (pokemon.types.contains(attack.getType())) {
             stab = 2
         }
@@ -109,9 +111,14 @@ class Pokemon(private var name: String, private var pv : Int, private var attack
         /**
          * https://bulbapedia.bulbagarden.net/wiki/Damage#Damage_calculation
          */
-        var damage = ((pokemon.level * 2 / 5 + 2) * pokemon.attack / this.defense / 50 + 2) * 1 * badgeDamage * Random.nextInt(217, 256) / 255 * stab *
+        val damage = ((pokemon.level * 2 / 5 + 2) * pokemon.attack / this.defense / 50 + 2) * 1 * badgeDamage * Random.nextInt(217, 257) / 255 * stab *
                 typeEffectiveness * 1
         this.pv -= damage
         if(this.pv <= 0) this.isKO = true
+    }
+
+    fun clone() : Pokemon {
+        val stringPokemon : String = Gson().toJson(this, Pokemon::class.java)
+        return Gson().fromJson(stringPokemon, Pokemon::class.java)
     }
 }
