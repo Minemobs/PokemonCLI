@@ -4,9 +4,9 @@ import java.util.function.Consumer
 
 enum class Types(weakness: ArrayList<String>, resistances: ArrayList<String>) {
 
-    WATER(arrayListOf("LEAF"), arrayListOf("FIRE")),
-    FIRE(arrayListOf("WATER"), arrayListOf("LEAF")),
-    LEAF(arrayListOf("FIRE"), arrayListOf("WATER"));
+    WATER(arrayListOf("PLANT"), arrayListOf("FIRE")),
+    FIRE(arrayListOf("WATER"), arrayListOf("PLANT")),
+    PLANT(arrayListOf("FIRE"), arrayListOf("WATER"));
 
     private val weak: ArrayList<String> = weakness
 

@@ -3,25 +3,21 @@ package fr.minemobs.pokemoncli.utils
 class Console {
 
     companion object {
-        fun println(text: String, timeInSec: Int) {
-            Thread.sleep((timeInSec * 1000).toLong())
-            println(text)
+        fun println(message: Any?, timeInSec: Int) {
+            println(message, (timeInSec * 1000).toLong())
         }
 
-        fun println(text: String) {
-            Thread.sleep(2000)
-            kotlin.io.println(text)
+        fun println(message: Any?, timeInMilSec: Long) {
+            val textes: CharArray = message.toString().toCharArray()
+            for (texte in textes) {
+                Thread.sleep(timeInMilSec)
+                print(texte)
+            }
+            println()
         }
 
-        fun print(text: String, timeInSec: Int) {
-            Thread.sleep((timeInSec * 1000).toLong())
-            print(text)
-        }
-
-        fun print(text: String) {
-            Thread.sleep(2000)
-            kotlin.io.print(text)
+        fun println(message: Any?) {
+            println(message, 0L)
         }
     }
-
 }

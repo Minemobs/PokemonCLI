@@ -1,61 +1,117 @@
 package fr.minemobs.pokemoncli.entities
 
+import fr.minemobs.pokemoncli.Attack
 import fr.minemobs.pokemoncli.Types
+import kotlin.random.Random
 
-interface Pokemon {
+class Pokemon(private var name: String, private var pv : Int, private var attack : Int, private var speed: Int, private var defense: Int, private var level : Int, private var xp : Int, private var types : ArrayList<Types>, private var evolutions : Map<Int, Pokemons>) {
 
-    var typesList: ArrayList<Types>
-    var pv: Float
-    var entityResistance: Int
-    var attackDamage: Int
-    var name: String
+    private var isBurn = false
+    private var isParalyzed = false
+    private var isPoisoned = false
+    private var isKO = false
 
-    fun getPokemonName() : String{
+    fun getName(): String {
         return name
     }
 
-    fun setPokemonName(name: String){
-        this.name = name
-    }
-
-    fun getTypes(): ArrayList<Types> {
-        return typesList
-    }
-
-    fun setTypes(type: Types){
-        typesList.add(type)
-    }
-
-    fun getHealth(): Float {
+    fun getPv() : Int {
         return pv
     }
 
-    fun setHealth(health: Float){
-        pv = health
+    fun getAttack() : Int {
+        return attack
     }
 
-    fun removeHealth(health: Float){
-        pv -= (health - entityResistance)
+    fun getDefense() : Int {
+        return defense
     }
 
-    fun addHealth(health: Int){
-        pv -= health
+    fun getSpeed() : Int {
+        return speed
     }
 
-    fun getResistance(): Int {
-        return entityResistance
+    fun getLevel() : Int {
+        return level
     }
 
-    fun setResistance(resistance: Int){
-        entityResistance = resistance
+    fun getXp() : Int {
+        return xp
     }
 
-    fun getDamage(): Int {
-        return attackDamage
+    fun getTypes() : ArrayList<Types> {
+        return types
     }
 
-    fun setDamage(atck: Int){
-        attackDamage = atck
+    fun setName(name: String) {
+        this.name = name
     }
 
+    fun setPv(pv: Int) {
+        this.pv = pv
+    }
+
+    fun setAttack(attack: Int) {
+        this.attack = attack
+    }
+
+    fun setDefense(defense: Int) {
+        this.defense = defense
+    }
+
+    fun setSpeed(speed: Int) {
+        this.speed = speed
+    }
+
+    fun setLevel(level: Int) {
+        this.level = level
+    }
+
+    fun setXp(xp: Int) {
+        this.xp = xp
+        if(this.xp >= 100) {
+            this.level++
+            this.xp -= 100
+        }
+    }
+
+    fun setTypes(types: ArrayList<Types>) {
+        this.types = types
+    }
+
+    fun damage(pokemon: Pokemon, attack: Attack, trainer: Trainer) {
+        var stab : Int = 1
+        if (pokemon.types.contains(attack.getType())) {
+            stab = 2
+        }
+
+        var doubleType = false
+
+        if(this.types.size == 1) doubleType = true
+
+        var typeEffectiveness = 1
+        if(doubleType) {
+            for (type in this.types) {
+                if(type.getWeaknessAsTypes().contains(attack.getType())) typeEffectiveness *= 2
+            }
+        }else {
+            if(this.types[0].getWeaknessAsTypes()[0] == attack.getType()) {
+                typeEffectiveness = 2
+            }
+        }
+
+        var badgeDamage = 1
+
+        if(trainer.badges.isNotEmpty()) {
+            badgeDamage = trainer.badges.size - 1
+        }
+
+        /**
+         * https://bulbapedia.bulbagarden.net/wiki/Damage#Damage_calculation
+         */
+        var damage = ((pokemon.level * 2 / 5 + 2) * pokemon.attack / this.defense / 50 + 2) * 1 * badgeDamage * Random.nextInt(217, 256) / 255 * stab *
+                typeEffectiveness * 1
+        this.pv -= damage
+        if(this.pv <= 0) this.isKO = true
+    }
 }

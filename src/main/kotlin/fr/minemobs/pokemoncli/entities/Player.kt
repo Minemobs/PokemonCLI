@@ -1,3 +1,7 @@
 package fr.minemobs.pokemoncli.entities
 
-class Player(override val name: String, override val pokemons: ArrayList<Pokemon>) : Trainer
+import fr.minemobs.pokemoncli.Badges
+
+class Player(override val name: String, override val pokemons: ArrayList<Pokemon>,
+             override val badges: ArrayList<Badges>
+) : Trainer

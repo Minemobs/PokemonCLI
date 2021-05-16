@@ -1,9 +1,12 @@
 package fr.minemobs.pokemoncli.entities
 
+import fr.minemobs.pokemoncli.Badges
+
 interface Trainer {
 
     val name : String
     val pokemons: ArrayList<Pokemon>
+    val badges : ArrayList<Badges>
 
     fun name() : String {
         return name

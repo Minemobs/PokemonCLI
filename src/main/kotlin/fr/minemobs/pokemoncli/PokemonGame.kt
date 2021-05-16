@@ -1,6 +1,7 @@
 package fr.minemobs.pokemoncli
 
 import fr.minemobs.pokemoncli.entities.Player
+import fr.minemobs.pokemoncli.entities.Pokemon
 import fr.minemobs.pokemoncli.entities.Trainer
 import fr.minemobs.pokemoncli.utils.Color
 import fr.minemobs.pokemoncli.utils.Console
@@ -37,12 +38,12 @@ fun main() {
     Console.println("I study Pokémon as a profession.")
     Console.println("First, what is your name ?")
     val name: String = readLine()!!
-    val player : Trainer = Player(name, ArrayList())
+    val player : Trainer = Player(name, ArrayList(), arrayListOf())
     Console.println("Right! So your name is $name !")
     Console.println("This is my grand-son. He's been your rival since you were a baby.")
     Console.println("... Erm, what is his name again ?")
     val rivalName : String = readLine()!!
-    val rival : Trainer = Player(rivalName, ArrayList())
+    val rival : Trainer = Player(rivalName, ArrayList(), arrayListOf())
     Console.println("That's right ! I remember now !")
     Console.println("His name is $rivalName !")
     Console.println("$name !")
@@ -78,5 +79,34 @@ fun main() {
             "                                                                                                       /____/   ")
     Console.println("", 5)
     Console.println("$rivalName: Gramps! I'm fed up with waiting!")
-    println("In dev")
+    Console.println("Oak: $rivalName? Let me think ...")
+    Console.println("Oh, that's right, I told you to come! Just wait!")
+    Console.println("Here, $name !")
+    Console.println("There are 3 pokémon here!")
+    Console.println("Haha!")
+    Console.println("They are inside the pokéballs.")
+    Console.println("When i was young, I was a serious pokémon trainer!")
+    Console.println("In my old age, I have only 3 left, but you can have one! Choose!")
+    Console.println("$rivalName: Hey! Gramps! What about me?")
+    Console.println("Oak: Be patient! $rivalName, you can have one too!")
+    Console.println("(Which pokémon do you want to choose ?) \n" +
+            "(Bulbasaur[1], Charmander[2], Squirtle[3])")
+    var pokemonChoosen = 0
+    while (pokemonChoosen == 0){
+        try {
+            when (val value = readLine()!!.toInt()) {
+                1, 2, 3 -> pokemonChoosen = value
+                else -> println("Please write a number between 1 and 3")
+            }
+        } catch (e: NumberFormatException) {
+            println("Please write a number between 1 and 3")
+        }
+    }
+
+    when (pokemonChoosen) {
+        1 -> {}
+        2 -> {}
+        3 -> {}
+    }
+
 }
