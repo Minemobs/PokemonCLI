@@ -1,4 +1,6 @@
 # PokemonCLI
+![minemobs made-with-kotlin](https://raw.githubusercontent.com/Minemobs/RandomFiles/main/madewithKotlin.svg)
+
 A pokémon game in a CLI
 
 * ### How do I download the game ?
