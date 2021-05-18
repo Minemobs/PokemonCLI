@@ -99,9 +99,10 @@ class Pokemon(private var name: String, private var pv : Int, private var attack
         this.types = types
     }
 
-    fun damage(pokemon: Pokemon, attack: Attacks, trainer: Trainer) {
+    fun damage(pokemon: Pokemon, attack: Attacks, trainer: Trainer) : Boolean {
+        if(attack.pp == 0) return false
         var stab = 1
-        if (pokemon.types.contains(attack.getType())) {
+        if (pokemon.types.contains(attack.type)) {
             stab = 2
         }
 
@@ -112,10 +113,10 @@ class Pokemon(private var name: String, private var pv : Int, private var attack
         var typeEffectiveness = 1
         if(doubleType) {
             for (type in this.types) {
-                if(type.getWeaknessAsTypes().contains(attack.getType())) typeEffectiveness *= 2
+                if(type.getWeaknessAsTypes().contains(attack.type)) typeEffectiveness *= 2
             }
         }else {
-            if(this.types[0].getWeaknessAsTypes()[0] == attack.getType()) {
+            if(this.types[0].getWeaknessAsTypes()[0] == attack.type) {
                 typeEffectiveness = 2
             }
         }
@@ -129,11 +130,14 @@ class Pokemon(private var name: String, private var pv : Int, private var attack
         /**
          * https://bulbapedia.bulbagarden.net/wiki/Damage#Damage_calculation
          */
-        val damage = ((pokemon.level * 2 / 5 + 2) * pokemon.attack / this.defense / 50 + 2) * 1 * badgeDamage * Random.nextInt(217, 256) / 255 * stab *
+        val damage = ((pokemon.level * 2 / 5 + 2) * attack.power * pokemon.attack / this.defense / 50 + 2) * 1 * badgeDamage * Random.nextInt(217, 256) / 255 * stab *
                 typeEffectiveness * 1
         this.pv -= damage
-        if(this.pv <= 0) this.isKO = true
-        addXP(pokemon)
+        if(this.pv <= 0) {
+            this.isKO = true
+            addXP(pokemon)
+        }
+        return true
     }
 
     private fun addXP(pokemon: Pokemon) {

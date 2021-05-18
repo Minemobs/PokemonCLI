@@ -7,6 +7,7 @@ import fr.minemobs.pokemoncli.entities.Pokemons
 import fr.minemobs.pokemoncli.entities.Trainer
 import fr.minemobs.pokemoncli.utils.Color
 import fr.minemobs.pokemoncli.utils.Console
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun main() {
@@ -163,9 +164,13 @@ fun startBattle(trainer: Trainer, player: Player) {
     //Start fight
     player.setInFight(true)
     println("${trainer.name()} wants to fight!")
-    val trainerPokemon: Pokemon = trainer.pokemons[Random.nextInt(trainer.pokemons.filter { pokemon -> !pokemon.isKo() }.size)]
-    println(trainerPokemon.getName())
-    var speedestPokemon : Pokemon = trainerPokemon
+    while(trainer.pokemons.any { pokemon -> !pokemon.isKo() } && player.pokemons.any { pokemon -> !pokemon.isKo() }){
+        val trainerPokemon: Pokemon = trainer.pokemons[Random.nextInt(trainer.pokemons.filter { pokemon -> !pokemon.isKo() }.size)]
+        battle(trainerPokemon, player.pokemons[0], trainer, player)
+        if(player.pokemons[0].isKo())
+        println(trainerPokemon.getName())
+    }
+    /*var speedestPokemon : Pokemon = trainerPokemon
     var slowestPokemon: Pokemon = player.pokemons[0]
     if(trainerPokemon.getSpeed() == player.pokemons[0].getSpeed()) {
         val rnd = Random.nextInt(2)
@@ -179,10 +184,36 @@ fun startBattle(trainer: Trainer, player: Player) {
     }
     if(speedestPokemon == trainerPokemon) {
         val rndAttack = speedestPokemon.getListOfAttacks()[Random.nextInt(speedestPokemon.getListOfAttacks().size)]
-        //slowestPokemon.damage(speedestPokemon, rndAttack, trainer)
         rndAttack.onUse(slowestPokemon, speedestPokemon, trainer)
-    }
-    //slowestPokemon.damage(speedestPokemon, , trainer)
-    //End fight
+    }*/
+
+
     player.setInFight(false)
+}
+
+private fun battle(trainerPok: Pokemon, playerPok : Pokemon, trainer: Trainer, player: Player) {
+    while (!trainerPok.isKo() && !playerPok.isKo()) {
+        var speediestPokemon : Pokemon = trainerPok
+        var slowestPokemon: Pokemon = playerPok
+        if(trainerPok.getSpeed() == playerPok.getSpeed()) {
+            val rnd = Math.random().roundToInt()
+            if(rnd == 0) {
+                speediestPokemon = playerPok
+                slowestPokemon = trainerPok
+            }
+        }else if (trainerPok.getSpeed() < playerPok.getSpeed()) {
+            speediestPokemon = playerPok
+            slowestPokemon = trainerPok
+        }
+
+        if(speediestPokemon == trainerPok) {
+            slowestPokemon.damage(speediestPokemon, rndAttack(speediestPokemon), trainer)
+        } else {
+            slowestPokemon.damage(speediestPokemon, rndAttack(speediestPokemon), player)
+        }
+    }
+}
+
+private fun rndAttack(pokemon: Pokemon): Attacks {
+    return pokemon.getListOfAttacks()[Random.nextInt(pokemon.getListOfAttacks().size)]
 }
