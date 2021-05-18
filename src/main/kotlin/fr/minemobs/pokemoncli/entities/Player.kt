@@ -15,6 +15,14 @@ class Player(override val name: String, override val pokemons: ArrayList<Pokemon
         }
     }
 
+    fun setPokemon(pokemon: Pokemons, slotID : Int) {
+        var slot = slotID
+        if(slot > 6) {
+            slot = 6
+        }
+        pokemons[slot] = pokemon.get().clone()
+    }
+
     fun isInFight() : Boolean {
         return inFight
     }

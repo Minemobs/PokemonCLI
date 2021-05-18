@@ -1,10 +1,13 @@
 package fr.minemobs.pokemoncli
 
+import fr.minemobs.pokemoncli.attack.Attacks
 import fr.minemobs.pokemoncli.entities.Player
+import fr.minemobs.pokemoncli.entities.Pokemon
 import fr.minemobs.pokemoncli.entities.Pokemons
 import fr.minemobs.pokemoncli.entities.Trainer
 import fr.minemobs.pokemoncli.utils.Color
 import fr.minemobs.pokemoncli.utils.Console
+import kotlin.random.Random
 
 fun main() {
     val color = Color()
@@ -119,13 +122,13 @@ fun main() {
     var giveNicknameInt = 0
     while (giveNicknameInt == 0) {
         val giveNickname = readLine()!!
-        when (giveNickname) {
-            "Yes" -> {
+        when (giveNickname.lowercase()) {
+            "yes" -> {
                 giveNicknameInt = 1
                 println("Please write the nickname of your pokémon")
                 player.pokemons[0].setName(readLine()!!)
             }
-            "No" -> giveNicknameInt = 1
+            "no" -> giveNicknameInt = 1
             else -> {
                 println("Please write [${color.GREEN}Yes${color.RESET}] or [${color.RED}No${color.RESET}]")
             }
@@ -147,13 +150,39 @@ fun main() {
     }
 
     println("$rivalName received a ${rival.pokemons[0].getName()}!")
-    Console.println("$rivalName: Wait \n $name!")
+    Console.println("$rivalName: Wait \n$name!")
     Console.println("Let's check out our pokémon!")
     Console.println("Come on, I'll take you on!")
     /*
     Fight
      */
+    startBattle(rival, player)
+}
+
+fun startBattle(trainer: Trainer, player: Player) {
+    //Start fight
     player.setInFight(true)
-    println("$rivalName wants to fight!")
-    //TODO: Fight system
+    println("${trainer.name()} wants to fight!")
+    val trainerPokemon: Pokemon = trainer.pokemons[Random.nextInt(trainer.pokemons.filter { pokemon -> !pokemon.isKo() }.size)]
+    println(trainerPokemon.getName())
+    var speedestPokemon : Pokemon = trainerPokemon
+    var slowestPokemon: Pokemon = player.pokemons[0]
+    if(trainerPokemon.getSpeed() == player.pokemons[0].getSpeed()) {
+        val rnd = Random.nextInt(2)
+        if(rnd == 0) {
+            speedestPokemon = player.pokemons[0]
+            slowestPokemon = trainerPokemon
+        }
+    }else if (trainerPokemon.getSpeed() < player.pokemons[0].getSpeed()) {
+        speedestPokemon = player.pokemons[0]
+        slowestPokemon = trainerPokemon
+    }
+    if(speedestPokemon == trainerPokemon) {
+        val rndAttack = speedestPokemon.getListOfAttacks()[Random.nextInt(speedestPokemon.getListOfAttacks().size)]
+        //slowestPokemon.damage(speedestPokemon, rndAttack, trainer)
+        rndAttack.onUse(slowestPokemon, speedestPokemon, trainer)
+    }
+    //slowestPokemon.damage(speedestPokemon, , trainer)
+    //End fight
+    player.setInFight(false)
 }
