@@ -167,9 +167,14 @@ fun startBattle(trainer: Trainer, player: Player) {
     while(trainer.pokemons.any { pokemon -> !pokemon.isKo() } && player.pokemons.any { pokemon -> !pokemon.isKo() }){
         val trainerPokemon: Pokemon = trainer.pokemons[Random.nextInt(trainer.pokemons.filter { pokemon -> !pokemon.isKo() }.size)]
         battle(trainerPokemon, player.pokemons[0], trainer, player)
-        if(player.pokemons[0].isKo())
-        println(trainerPokemon.getName())
     }
+
+    if(trainer.pokemons.none { pokemon -> !pokemon.isKo() }) {
+        println("${player.name()} won the fight!")
+    }else if(player.pokemons.none { pokemon -> !pokemon.isKo() }) {
+        println("${trainer.name()} won the fight!")
+    }
+
     /*var speedestPokemon : Pokemon = trainerPokemon
     var slowestPokemon: Pokemon = player.pokemons[0]
     if(trainerPokemon.getSpeed() == player.pokemons[0].getSpeed()) {
@@ -206,10 +211,29 @@ private fun battle(trainerPok: Pokemon, playerPok : Pokemon, trainer: Trainer, p
             slowestPokemon = trainerPok
         }
 
+        println("Choose an attack")
+        var selectedAttack : Attacks? = null
+        while (selectedAttack == null) {
+            val selectedAttackAsString = readLine()!!.uppercase()
+            try {
+                selectedAttack = Attacks.valueOf(selectedAttackAsString)
+            }catch(e: IllegalArgumentException){
+                println("Please choose a valid attack")
+            }
+        }
+
         if(speediestPokemon == trainerPok) {
-            slowestPokemon.damage(speediestPokemon, rndAttack(speediestPokemon), trainer)
+            val rndAttack = rndAttack(speediestPokemon)
+            slowestPokemon.damage(speediestPokemon, rndAttack, trainer)
+            println("${speediestPokemon.getName()} use ${rndAttack.attackName} on ${speediestPokemon.getName()}")
+            speediestPokemon.damage(slowestPokemon, selectedAttack, player)
+            println("${slowestPokemon.getName()} use ${selectedAttack.attackName} on ${speediestPokemon.getName()}")
         } else {
-            slowestPokemon.damage(speediestPokemon, rndAttack(speediestPokemon), player)
+            slowestPokemon.damage(speediestPokemon, selectedAttack, player)
+            println("${speediestPokemon.getName()} use ${selectedAttack.attackName} on ${slowestPokemon.getName()}")
+            val rndAttacks = rndAttack(speediestPokemon)
+            speediestPokemon.damage(slowestPokemon, rndAttacks, trainer)
+            println("${slowestPokemon.getName()} use ${rndAttacks.attackName} on ${speediestPokemon.getName()}")
         }
     }
 }
