@@ -14,3 +14,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation 'com.google.code.gson:gson:2.8.6'
 }
+
+application {
+    mainClass = "fr.minemobs.pokemoncli.PokemonGameKt"
+}
