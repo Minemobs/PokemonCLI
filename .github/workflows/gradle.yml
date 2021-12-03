@@ -28,4 +28,4 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: PokemonCLI
-        path: build/libs/pokemonCLI-1.0-SNAPSHOT.jar
+        path: build/libs/pokemonCLI-1.0-SNAPSHOT-all.jar
