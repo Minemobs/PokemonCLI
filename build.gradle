@@ -1,6 +1,8 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.0'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
     id 'application'
+    id 'java'
 }
 
 group 'fr.minemobs'
@@ -12,9 +14,16 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
 application {
-    mainClass = "fr.minemobs.pokemoncli.PokemonGameKt"
+    mainClassName = "fr.minemobs.pokemoncli.PokemonGameKt"
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": mainClassName
+    }
 }

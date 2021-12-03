@@ -5,14 +5,13 @@ import fr.minemobs.pokemoncli.entities.Player
 import fr.minemobs.pokemoncli.entities.Pokemon
 import fr.minemobs.pokemoncli.entities.Pokemons
 import fr.minemobs.pokemoncli.entities.Trainer
-import fr.minemobs.pokemoncli.utils.Color
 import fr.minemobs.pokemoncli.utils.Console
+import fr.minemobs.pokemoncli.utils.Console.Companion.asciiBox
+import fr.minemobs.pokemoncli.utils.Console.Companion.color
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun main() {
-    val color = Color()
-
     println(color.RED +
             " ____       _                                 ____  _____ ____   \n" +
             "|  _ \\ ___ | | _____ _ __ ___   ___  _ __    |  _ \\| ____|  _ \\  \n" +
@@ -38,20 +37,20 @@ fun main() {
     Console.println("This world is inhabited by creatures called Pokémon!")
     Console.println("For some people, Pokémon are pets. Others use them for fights.")
     Console.println("Others use them for fight.")
-    Console.println("Myself ...")
+    Console.println("Myself …")
     Console.println("I study Pokémon as a profession.")
     Console.println("First, what is your name ?")
     val name: String = readLine()!!
     val player = Player(name, ArrayList(), arrayListOf())
     Console.println("Right! So your name is $name !")
     Console.println("This is my grand-son. He's been your rival since you were a baby.")
-    Console.println("... Erm, what is his name again ?")
+    Console.println("… Erm, what is his name again ?")
     val rivalName : String = readLine()!!
     val rival : Trainer = Player(rivalName, ArrayList(), arrayListOf())
     Console.println("That's right ! I remember now !")
     Console.println("His name is $rivalName !")
     Console.println("$name !")
-    Console.println("Your very own Pokemon legend is about to unfold !")
+    Console.println("Your very own Pokémon legend is about to unfold !")
     Console.println("A world of dreams and adventures with Pokémon awaits ! Let's go !")
 
     /*
@@ -65,10 +64,10 @@ fun main() {
             " / _, _/ /_/ / /_/ / / / / /___   / /_/ / /  \n" +
             "/_/ |_|\\____/\\____/ /_/ /_____/   \\____/_/   ")
     Console.println("", 5)
-    Console.println("OAK: Hey! Wait! Don't go out!")
-    Console.println("OAK: It's unsafe! Wild Pokémon live in tall grass!")
-    Console.println("You need your own Pokémon for your protection.")
-    Console.println("I know! Here, come with me !")
+    Console.println(asciiBox("OAK", "Hey! Wait! Don't go out!"))
+    Console.println(asciiBox("OAK", "It's unsafe! Wild Pokémon live in tall grass!"))
+    Console.println(asciiBox("OAK","You need your own Pokémon for your protection."))
+    Console.println(asciiBox("OAK","I know! Here, come with me !"))
 
     /*
     Professor's laboratory
@@ -83,18 +82,18 @@ fun main() {
             "                                                                                                       /____/   ")
     Console.println("", 5)
     Console.println("$rivalName: Gramps! I'm fed up with waiting!")
-    Console.println("Oak: $rivalName? Let me think ...")
+    Console.println("Oak: $rivalName? Let me think …")
     Console.println("Oh, that's right, I told you to come! Just wait!")
     Console.println("Here, $name !")
     Console.println("There are 3 pokémon here!")
     Console.println("Haha!")
     Console.println("They are inside the pokéballs.")
-    Console.println("When i was young, I was a serious pokémon trainer!")
+    Console.println("When I was young, I was a serious Pokémon trainer!")
     Console.println("In my old age, I have only 3 left, but you can have one! Choose!")
     Console.println("$rivalName: Hey! Gramps! What about me?")
     Console.println("Oak: Be patient! $rivalName, you can have one too!")
-    println("(Which pokémon do you want to choose ?) \n" +
-            "(Bulbasaur[1], Charmander[2], Squirtle[3])")
+    println("(Which Pokémon do you want to choose ?) \n" +
+            "(Bulbasaur [1], Charmander [2], Squirtle [3])")
     var pokemonChoosen = 0
     while (pokemonChoosen == 0){
         try {
@@ -201,8 +200,7 @@ private fun battle(trainerPok: Pokemon, playerPok : Pokemon, trainer: Trainer, p
         var speediestPokemon : Pokemon = trainerPok
         var slowestPokemon: Pokemon = playerPok
         if(trainerPok.getSpeed() == playerPok.getSpeed()) {
-            val rnd = Math.random().roundToInt()
-            if(rnd == 0) {
+            if(Math.random().roundToInt() == 0) {
                 speediestPokemon = playerPok
                 slowestPokemon = trainerPok
             }
