@@ -121,11 +121,13 @@ class Pokemon(private var name: String, private var pv : Int, private var attack
             }
         }
 
+
         var badgeDamage = 1
 
+        /* Not in gen 1
         if(trainer.badges.isNotEmpty()) {
             badgeDamage = trainer.badges.size - 1
-        }
+        }*/
 
         /**
          * https://bulbapedia.bulbagarden.net/wiki/Damage#Damage_calculation

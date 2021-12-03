@@ -169,7 +169,7 @@ fun startBattle(trainer: Trainer, player: Player) {
     }
 
     if(trainer.pokemons.none { pokemon -> !pokemon.isKo() }) {
-        println("${player.name()} won the fight!")
+        println("You won the fight!")
     }else if(player.pokemons.none { pokemon -> !pokemon.isKo() }) {
         println("${trainer.name()} won the fight!")
     }
