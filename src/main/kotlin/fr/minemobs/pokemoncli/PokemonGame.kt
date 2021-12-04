@@ -6,7 +6,6 @@ import fr.minemobs.pokemoncli.entities.Pokemon
 import fr.minemobs.pokemoncli.entities.Pokemons
 import fr.minemobs.pokemoncli.entities.Trainer
 import fr.minemobs.pokemoncli.utils.Console
-import fr.minemobs.pokemoncli.utils.Console.Companion.asciiBox
 import fr.minemobs.pokemoncli.utils.Console.Companion.color
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -64,10 +63,10 @@ fun main() {
             " / _, _/ /_/ / /_/ / / / / /___   / /_/ / /  \n" +
             "/_/ |_|\\____/\\____/ /_/ /_____/   \\____/_/   ")
     Console.println("", 5)
-    Console.println(asciiBox("OAK", "Hey! Wait! Don't go out!"))
-    Console.println(asciiBox("OAK", "It's unsafe! Wild Pokémon live in tall grass!"))
-    Console.println(asciiBox("OAK","You need your own Pokémon for your protection."))
-    Console.println(asciiBox("OAK","I know! Here, come with me !"))
+    Console.printAsciiBox("OAK", "Hey! Wait! Don't go out!")
+    Console.printAsciiBox("OAK", "It's unsafe! Wild Pokémon live in tall grass!")
+    Console.printAsciiBox("OAK","You need your own Pokémon for your protection.")
+    Console.printAsciiBox("OAK","I know! Here, come with me !")
 
     /*
     Professor's laboratory

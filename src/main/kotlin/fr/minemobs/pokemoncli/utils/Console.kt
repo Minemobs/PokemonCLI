@@ -1,6 +1,7 @@
 package fr.minemobs.pokemoncli.utils
 
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.SystemUtils
 
 class Console {
 
@@ -70,6 +71,26 @@ class Console {
             val start = mid - len / 2
             val end = start + len
             return out.substring(start.toInt(), end.toInt())
+        }
+
+        private fun clear() {
+            if(SystemUtils.IS_OS_UNIX) {
+                Runtime.getRuntime().exec("clear")
+            } else {
+                print(System.lineSeparator().repeat(50).repeat(120))
+            }
+        }
+
+        fun printAsciiBox(str: String) {
+            println(asciiBox(str))
+            Thread.sleep(5000)
+            clear()
+        }
+
+        fun printAsciiBox(title: String, content: String) {
+            println(asciiBox(title, content))
+            Thread.sleep(5000)
+            clear()
         }
     }
 }
