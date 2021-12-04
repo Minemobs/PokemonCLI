@@ -163,7 +163,7 @@ fun startBattle(trainer: Trainer, player: Player) {
     //Start fight
     player.setInFight(true)
     println("${trainer.name()} wants to fight!")
-    while(trainer.pokemons.any { pokemon -> !pokemon.isKo() } && player.pokemons.any { pokemon -> !pokemon.isKo() }){
+    while(trainer.pokemons.any { pokemon -> !pokemon.isKo() } && player.pokemons.any { pokemon -> !pokemon.isKo() }) {
         val trainerPokemon: Pokemon = trainer.pokemons[Random.nextInt(trainer.pokemons.filter { pokemon -> !pokemon.isKo() }.size)]
         battle(trainerPokemon, player.pokemons[0], trainer, player)
     }

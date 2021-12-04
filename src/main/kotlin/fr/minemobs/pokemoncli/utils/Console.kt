@@ -31,15 +31,7 @@ class Console {
             val lineBreak = str.split("\n").map { it.trim() }.filterNot { it.isEmpty() || it.isBlank() }
             val boxWidth = lineBreak.sortedWith(compareBy { it.length }).last().length + 4
             val top = "╔" + "═".repeat(boxWidth) + "╗"
-            val middle = StringBuilder()
-            lineBreak.filterNot { it.isBlank() || it.isEmpty() }.forEach {
-                middle.append("║").append(center(it, boxWidth)).append("║")
-                if(it != lineBreak.last()) {
-                    middle.append("\n")
-                }
-            }
-            val bottom = "╚" + "═".repeat(boxWidth) + "╝"
-            return listOf(top, middle, bottom).joinToString("\n")
+            return listOf(middle(top, lineBreak, boxWidth)).joinToString("\n")
         }
 
         /**
@@ -57,6 +49,10 @@ class Console {
             val top = "╔" + "═".repeat(boxWidth) + "╗"
             val middleTitle = "║" + color.ANSI_ITALIC + StringUtils.center(title, boxWidth) + color.RESET + "║"
             val bottomTitle = "╟" + "═".repeat(boxWidth) + "╢"
+            return listOf(middle(listOf(top, middleTitle, bottomTitle).joinToString("\n"), lineBreak, boxWidth)).joinToString("\n")
+        }
+
+        private fun middle(top: String, lineBreak: List<String>, boxWidth: Int) : String {
             val middle = StringBuilder()
             lineBreak.filterNot { it.isBlank() || it.isEmpty() }.forEach {
                 middle.append("║").append(center(it, boxWidth)).append("║")
@@ -65,10 +61,10 @@ class Console {
                 }
             }
             val bottom = "╚" + "═".repeat(boxWidth) + "╝"
-            return listOf(top, middleTitle, bottomTitle, middle, bottom).joinToString("\n")
+            return listOf(top, middle, bottom).joinToString("\n")
         }
 
-        private fun center(text: String?, len: Int): String? {
+        private fun center(text: String, len: Int): String {
             val out = String.format("%" + len + "s%s%" + len + "s", "", text, "")
             val mid = (out.length / 2).toFloat()
             val start = mid - len / 2
